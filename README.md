@@ -1,21 +1,23 @@
 # SortMe
 Sort A extreme large file by character frequence
 
+Compiled OS: macOS Sierra 10.12.1     JDK: 1.8.0_66-b17
+   
+
 Steps to run:
 
-1. $cd src
-2. $java CreateTestData <LINES> <CHAR_TO_GENERATE> 
-3. $java Sortme INPUT_FILENAME OUTPUT_FILENAME
+    1. $cd src
+    2. $java CreateTestData <LINES> <CHAR_TO_GENERATE> 
+    3. $java Sortme INPUT_FILENAME OUTPUT_FILENAME
 
 
 Directly run "$java Sortme" to see help command
 
 
 
-
 Thinking Process:
 
-    Since we need to sort an extreme large file, we can't just load all content into memory and sort.  We'd better use some divide-conquer strategies. Here I come up two solutions: External Sort and Map Reduce. 
+    Since we need to sort an extreme large file, we can't just load all contents into memory and sort.  We'd better use some divide-conquer strategies. Here I come up two solutions: External Sort and Map Reduce. 
 
 External Sort:
 
@@ -45,17 +47,17 @@ External Sort:
         you may think I call getFrequency() (O(len) time) function very frequently when compare strings. Actually I tried to use hashmap<String, Integer> to record the relationship. But I noticed that hash() function in hashmap to hash string still takes relative O(len) time. So there is no need to use hashmap to record the frequency of each sentence.
 
     Further Optimize:
-        1.  pre calculate user's memory space and set the maximum chunk size
-        2.  Add frequency in the end of each line for further reference (only need to call getFrequency() one time). Delete this number in the end When merge to final file.
+        1.  pre calculate user's memory space and set the maximum chunk size.
+        2.  Add frequency in the end of each line for further reference (what minimize the call of getFrequency()). Delete this number when merge to final file.
 
 
 
 Map Reduce:
 I didn't implement this but I will briefly describe the strategy.
 
-    1. Mapper use a hashmap<String, Integer> to record the sentence - frequency relationship
+    1. Mapper uses a hashmap<String, Integer> to record the sentence - frequency relationship.
 
-    2. transfer to different node, each node is in charge of a range of frequency.
+    2. Transfer to different node, each node is in charge of a range of frequency.
 
     2. Reducer is resposible for merging.
 
